@@ -1,0 +1,33 @@
+{
+  "name": "events_app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "antd": "^5.21.1",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.6.3",
+    "next": "14.2.13",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.25.4",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "babel-plugin-import": "^1.13.8",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13",
+    "typescript": "^5"
+  }
+}
