@@ -1,7 +1,7 @@
 import { CronJob } from 'cron';
 import { faker } from '@faker-js/faker';
 import Event from '../../models/eventModel';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 async function generateFakeEvent() {
   const fakeEvent = new Event({
