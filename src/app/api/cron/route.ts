@@ -21,7 +21,7 @@ async function generateFakeEvent() {
 
 export async function GET() {
   const job = new CronJob(
-    '* * * * *', // Запускається щохвилини (змініть на 0 */3 * * * для запуску кожні 3 години)
+    '* */5 * * *',
     async function () {
       await generateFakeEvent();
     },
