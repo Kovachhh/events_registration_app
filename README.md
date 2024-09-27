@@ -8,4 +8,4 @@ Level:
 Advanced
 
 Demo:
-[Demo][https://events-registration-app-272c9a44017e.herokuapp.com/events]
+[Demo](https://events-registration-app-272c9a44017e.herokuapp.com/events)
