@@ -3,7 +3,6 @@ import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
 import { STATUS_CODES } from '@/app/constants/enums';
-import { connectMongoDB } from '@/app/utils/db';
 import User from '@/app/models/userModel';
 import Event from '@/app/models/eventModel';
 import { EVENT_NOT_FOUND } from '@/app/constants/messages';
@@ -31,8 +30,6 @@ type InputType = {
 
 export async function PUT(req: NextRequest, { params }: InputType) {
   try {
-    await connectMongoDB();
-
     const { id: event_id } = params;
     const body = await req.json();
 

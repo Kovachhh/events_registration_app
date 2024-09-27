@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 import { STATUS_CODES } from '@/app/constants/enums';
-import { connectMongoDB } from '@/app/utils/db';
 import Event from '@/app/models/eventModel';
 import User from '@/app/models/userModel';
 import { EVENT_NOT_FOUND } from '@/app/constants/messages';
@@ -14,12 +13,8 @@ type InputType = {
 
 export async function GET(req: NextRequest, { params }: InputType) {
   try {
-    await connectMongoDB();
-
     const { searchParams } = req.nextUrl;
-
     const { id } = params;
-
     const query = searchParams.get('query') || '';
 
     const event = await Event.findById(id).lean();

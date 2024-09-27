@@ -1,16 +1,12 @@
 import { NextResponse, NextRequest } from 'next/server';
 
 import { STATUS_CODES } from '@/app/constants/enums';
-import { connectMongoDB } from '@/app/utils/db';
 import Event from '@/app/models/eventModel';
 import { PER_PAGE } from '@/app/constants/constants';
 import { INVALID_PAGE } from '@/app/constants/messages';
 
 export async function GET(req: NextRequest) {
   try {
-    await connectMongoDB();
-
-    // const body = await req.json();
     const { searchParams } = req.nextUrl;
     const page = parseInt(searchParams.get('page') || '1', 10);
     const sortBy = searchParams.get('sort_by') || 'date';

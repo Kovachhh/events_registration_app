@@ -4,7 +4,12 @@ import { useEffect } from 'react';
 
 export default function Home() {
   useEffect(() => {
-    redirect('/events');
+    const runCron = async () => {
+      await fetch('/api/cron');
+    };
+
+    runCron();
+    // redirect('/events');
   });
   return <div></div>;
 }
