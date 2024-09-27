@@ -9,7 +9,7 @@ export default function Home() {
     };
 
     runCron();
-    // redirect('/events');
+    redirect('/events');
   });
   return <div></div>;
 }
