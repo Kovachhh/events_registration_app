@@ -2,7 +2,6 @@ import { NextResponse, NextRequest } from 'next/server';
 
 import { STATUS_CODES } from '@/app/constants/enums';
 import { connectMongoDB } from '@/app/utils/db';
-
 import Event from '@/app/models/eventModel';
 import User from '@/app/models/userModel';
 import { EVENT_NOT_FOUND } from '@/app/constants/messages';
@@ -45,7 +44,18 @@ export async function GET(req: NextRequest, { params }: InputType) {
       users = await User.find({ event_id: id });
     }
 
-    return NextResponse.json({ ...event, users });
+    const usersGroupedByCreatedAt: { [key: string]: number } = {}; // Ключі - дати, значення - кількість
+
+    users.forEach((user) => {
+      const date = user.createdAt.toISOString().split('T')[0]; // Отримуємо тільки дату без часу
+      usersGroupedByCreatedAt[date] = (usersGroupedByCreatedAt[date] || 0) + 1; // Збільшуємо лічильник для кожної дати
+    });
+
+    return NextResponse.json({
+      ...event,
+      users,
+      widget: usersGroupedByCreatedAt,
+    });
   } catch (error) {
     console.error('Error during getting events: ', error);
     return NextResponse.json(

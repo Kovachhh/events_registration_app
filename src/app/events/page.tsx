@@ -1,10 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Flex, Layout, Select } from 'antd';
+import { Layout, Select } from 'antd';
 
 import { Event } from '@/app/types/Event';
-import { LOADING } from '../constants/messages';
 import Header from '../components/Header';
 import FilterPanel from '../components/FilterPanel';
 import EventBoard from '../components/EventBoard';
@@ -22,11 +21,11 @@ const EventsPage: React.FC = () => {
     sort_by: 'title',
     order_by: 'asc',
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const getEvents = async (newPage = page, reset = false) => {
+  const getEvents = async (newPage = page) => {
     try {
       setIsLoading(true);
 
@@ -36,7 +35,7 @@ const EventsPage: React.FC = () => {
 
       setTotal(response.data.total);
 
-      if (reset) {
+      if (newPage === 1) {
         setEvents(response.data.events);
       } else {
         setEvents((prev) => [...prev, ...response.data.events]);
@@ -49,13 +48,33 @@ const EventsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    getEvents();
-  }, [page]);
+    setPage(1);
+    getEvents(1);
+  }, [sortingBy]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      if (!isLoading && events.length < total) {
+        setPage((prev) => prev + 1);
+      }
+    }
+  };
 
   useEffect(() => {
-    setPage(1);
-    getEvents(1, true);
-  }, [sortingBy]);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [events, isLoading, total]);
+
+  useEffect(() => {
+    if (page > 1) {
+      getEvents(page);
+    }
+  }, [page]);
 
   const onSortingByChange = (value: string) => {
     const [sort_by, order_by] = value.split('-');
@@ -65,54 +84,41 @@ const EventsPage: React.FC = () => {
   return (
     <Layout>
       <Header title='Events' />
-      <FilterPanel>
-        <Select
-          placeholder='Select a sorting by'
-          defaultValue='title-asc'
-          style={{ minWidth: '150px' }}
-          onChange={onSortingByChange}
-          options={[
-            { value: 'title-asc', label: 'Title (ascending)' },
-            {
-              value: 'title-desc',
-              label: 'Title (descending)',
-            },
-            {
-              value: 'due_date-asc',
-              label: 'Event date (ascending)',
-            },
-            {
-              value: 'due_date-desc',
-              label: 'Event date (descending)',
-            },
-            {
-              value: 'organizer-asc',
-              label: 'Organizer (ascending)',
-            },
-            {
-              value: 'organizer-desc',
-              label: 'Organizer (descending)',
-            },
-          ]}
-        />
-      </FilterPanel>
+      <Content style={{ paddingInline: '32px' }}>
+        <FilterPanel>
+          <Select
+            placeholder='Select a sorting by'
+            defaultValue='title-asc'
+            style={{ minWidth: '150px' }}
+            onChange={onSortingByChange}
+            options={[
+              { value: 'title-asc', label: 'Title (ascending)' },
+              {
+                value: 'title-desc',
+                label: 'Title (descending)',
+              },
+              {
+                value: 'due_date-asc',
+                label: 'Event date (ascending)',
+              },
+              {
+                value: 'due_date-desc',
+                label: 'Event date (descending)',
+              },
+              {
+                value: 'organizer-asc',
+                label: 'Organizer (ascending)',
+              },
+              {
+                value: 'organizer-desc',
+                label: 'Organizer (descending)',
+              },
+            ]}
+          />
+        </FilterPanel>
+      </Content>
       <Content style={{ padding: '0 48px' }}>
         <EventBoard isLoading={isLoading} events={events} />
-        {events.length < total && (
-          <Flex
-            align='center'
-            gap='middle'
-            justify='center'
-            style={{ marginBlock: '24px' }}
-          >
-            <Button
-              onClick={() => setPage((prev) => prev + 1)}
-              disabled={isLoading}
-            >
-              {isLoading ? LOADING : 'Load more'}
-            </Button>
-          </Flex>
-        )}
       </Content>
     </Layout>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
+
 import { User } from '@/app/types/User';
 
 const UserCard = ({ data }: { data: User }) => {

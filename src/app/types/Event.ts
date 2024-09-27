@@ -9,4 +9,5 @@ export type Event = {
   createdAt: Date;
   updatedAt: Date;
   users: User[];
+  widget: object;
 };

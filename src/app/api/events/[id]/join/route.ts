@@ -4,7 +4,6 @@ import addFormats from 'ajv-formats';
 
 import { STATUS_CODES } from '@/app/constants/enums';
 import { connectMongoDB } from '@/app/utils/db';
-
 import User from '@/app/models/userModel';
 import Event from '@/app/models/eventModel';
 import { EVENT_NOT_FOUND } from '@/app/constants/messages';

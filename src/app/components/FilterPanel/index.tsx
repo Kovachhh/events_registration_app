@@ -9,7 +9,7 @@ type FilterPanelProps = {
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ children }) => {
   return (
-    <Content style={{ padding: '16px 68px' }}>
+    <Content style={{ padding: '16px 0' }}>
       <Flex
         align='center'
         gap='middle'
