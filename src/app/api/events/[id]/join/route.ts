@@ -30,11 +30,7 @@ type InputType = {
   };
 };
 
-export async function PUT(
-  req: NextRequest,
-  { params }: InputType,
-  res: NextResponse
-) {
+export async function PUT(req: NextRequest, { params }: InputType) {
   try {
     await connectMongoDB();
 

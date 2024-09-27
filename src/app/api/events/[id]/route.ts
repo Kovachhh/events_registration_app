@@ -39,7 +39,7 @@ export async function GET(req: NextRequest, { params }: InputType) {
 
       users = await User.find({
         event_id: id,
-        $or: [{ name: regexQuery }, { email: regexQuery }],
+        $or: [{ full_name: regexQuery }, { email: regexQuery }],
       });
     } else {
       users = await User.find({ event_id: id });
