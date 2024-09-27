@@ -39,11 +39,11 @@ export async function GET(req: NextRequest, { params }: InputType) {
       users = await User.find({ event_id: id });
     }
 
-    const usersGroupedByCreatedAt: { [key: string]: number } = {}; // Ключі - дати, значення - кількість
+    const usersGroupedByCreatedAt: { [key: string]: number } = {};
 
     users.forEach((user) => {
-      const date = user.createdAt.toISOString().split('T')[0]; // Отримуємо тільки дату без часу
-      usersGroupedByCreatedAt[date] = (usersGroupedByCreatedAt[date] || 0) + 1; // Збільшуємо лічильник для кожної дати
+      const date = user.createdAt.toISOString().split('T')[0];
+      usersGroupedByCreatedAt[date] = (usersGroupedByCreatedAt[date] || 0) + 1;
     });
 
     return NextResponse.json({
